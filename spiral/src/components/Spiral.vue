@@ -40,33 +40,22 @@ export default {
 
       return style;
     },
-    renderMatrix() {
-      const matrix = new Array();
+    getNumbers(matrix, count) {
       let direction = "right";
-
-      for (let j = 0; j < this.count; ++j) {
-        const row = new Array();
-        for (let i = 0; i < this.count; ++i) {
-          row[i] = null;
-        }
-        matrix.push(row);
-      }
 
       let x = 0,
         y = 0;
 
-      matrix[0][0] = 1;
-
-      for (let i = 1; i < this.count * this.count; ++i) {
+      for (let i = 1; i < count * count; ++i) {
         if (direction == "right") {
-          if (x + 1 < this.count && !matrix[y][x + 1]) {
+          if (x + 1 < count && !matrix[y][x + 1]) {
             x++;
           } else {
             direction = "down";
           }
         }
         if (direction == "down") {
-          if (y + 1 < this.count && !matrix[y + 1][x]) {
+          if (y + 1 < count && !matrix[y + 1][x]) {
             y++;
           } else {
             direction = "left";
@@ -89,6 +78,65 @@ export default {
         }
         matrix[y][x] = i + 1;
       }
+    },
+    getNumbersRecursive(matrix, direction, degree, currentPos, current, count) {
+      if (current > count * count - 1) return;
+      const x = Math.round(Math.cos(degree)),
+        y = Math.round(Math.sin(degree));
+
+      while (
+        currentPos[0] + direction[0] < count &&
+        currentPos[1] + direction[1] < count &&
+        currentPos[0] + direction[0] >= 0 &&
+        currentPos[1] + direction[1] >= 0 &&
+        !matrix[currentPos[1] + direction[1]][currentPos[0] + direction[0]]
+      ) {
+        current++;
+        currentPos[0] += direction[0];
+        currentPos[1] += direction[1];
+        matrix[currentPos[1]][currentPos[0]] = current;
+      }
+
+      direction[0] = x;
+      direction[1] = y;
+
+      if (degree == Math.PI * 2) {
+        degree = 0;
+      } else degree += Math.PI / 2;
+
+      this.getNumbersRecursive(
+        matrix,
+        direction,
+        degree,
+        currentPos,
+        current,
+        count
+      );
+    },
+    renderMatrix() {
+      let matrix = new Array();
+
+      for (let j = 0; j < this.count; ++j) {
+        const row = new Array();
+        for (let i = 0; i < this.count; ++i) {
+          row[i] = null;
+        }
+        matrix.push(row);
+      }
+
+      matrix[0][0] = 1;
+
+      //this.getNumbers(matrix, this.count);
+
+      this.getNumbersRecursive(
+        matrix,
+        new Array(1, 0),
+        0,
+        new Array(0, 0),
+        1,
+        this.count
+      );
+
       return matrix;
     },
   },
