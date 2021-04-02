@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      numbers: this.renderMatrix(),
+      numbers: this.getMatrix(),
     };
   },
   methods: {
@@ -113,7 +113,7 @@ export default {
         count
       );
     },
-    renderMatrix() {
+    getMatrix() {
       let matrix = new Array();
 
       for (let j = 0; j < this.count; ++j) {
