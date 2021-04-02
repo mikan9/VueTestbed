@@ -33,7 +33,7 @@ export default {
     numberBackgroundColor(count, i) {
       var style = {};
       style.backgroundColor = "#ffff00";
-      const step = count / 220,
+      const step = 100 / Math.pow(count * count, 0.51),
         val = i * step;
 
       style.filter = "brightness(" + (100 - val) + "%)";
@@ -85,11 +85,11 @@ export default {
         y = Math.round(Math.sin(degree));
 
       while (
-        currentPos[0] + direction[0] < count &&
-        currentPos[1] + direction[1] < count &&
-        currentPos[0] + direction[0] >= 0 &&
-        currentPos[1] + direction[1] >= 0 &&
-        !matrix[currentPos[1] + direction[1]][currentPos[0] + direction[0]]
+        currentPos[0] + direction[0] < count && // Right Edge
+        currentPos[1] + direction[1] < count && // Bottom Edge
+        currentPos[0] + direction[0] >= 0 && // Left Edge
+        currentPos[1] + direction[1] >= 0 && // Top edge
+        !matrix[currentPos[1] + direction[1]][currentPos[0] + direction[0]] // Make sure next element is null
       ) {
         current++;
         currentPos[0] += direction[0];
