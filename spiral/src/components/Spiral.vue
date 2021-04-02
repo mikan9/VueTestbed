@@ -1,9 +1,16 @@
 <template>
   <div class="spiral">
-    <h1>{{ count }}</h1>
+    <h1>Count: {{ count }}</h1>
     <div id="matrix">
       <div class="row" v-for="row in numbers" :key="row.index">
-        <div class="number" v-for="number in row" :key="number.index">
+        <div
+          v-bind:style="
+            numberBackgroundColor(numbers.length * row.length, number)
+          "
+          class="number"
+          v-for="number in row"
+          :key="number.index"
+        >
           {{ number }}
         </div>
       </div>
@@ -23,6 +30,16 @@ export default {
     };
   },
   methods: {
+    numberBackgroundColor(count, i) {
+      var style = {};
+      style.backgroundColor = "#ffff00";
+      const step = count / 220,
+        val = i * step;
+
+      style.filter = "brightness(" + (100 - val) + "%)";
+
+      return style;
+    },
     renderMatrix() {
       const matrix = new Array();
       let direction = "right";
@@ -70,7 +87,6 @@ export default {
             x++;
           }
         }
-        console.log("x: " + x + ", y: " + y);
         matrix[y][x] = i + 1;
       }
       return matrix;
