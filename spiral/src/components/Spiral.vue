@@ -32,11 +32,10 @@ export default {
   methods: {
     numberBackgroundColor(count, i) {
       var style = {};
-      style.backgroundColor = "#ffff00";
-      const step = 100 / Math.pow(count * count, 0.51),
+      const step = 250 / Math.pow(count * count, 0.47),
         val = i * step;
 
-      style.filter = "brightness(" + (100 - val) + "%)";
+      style.backgroundColor = "hsl(" + val + ", 100%, 50%)";
 
       return style;
     },
