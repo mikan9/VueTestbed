@@ -32,11 +32,12 @@ export default {
   },
   methods: {
     numberBackgroundColor(count, i) {
-      var style = {};
+      let style = {};
       const step = 250 / Math.pow(count * count, 0.47),
         val = i * step;
 
-      style.backgroundColor = "hsl(" + val + ", 100%, 50%)";
+      style.backgroundColor = "hsl(" + val + ", 70%, 50%)";
+      /* style.color = "hsl(" + (val + 180) + ", 70%, 50%)"; */
 
       return style;
     },
@@ -180,8 +181,10 @@ a {
   justify-content: center;
   align-items: center;
 
-  width: 2em;
-  height: 2em;
+  width: 2.5em;
+  height: 2.5em;
   border: 1px #000 solid;
+
+  color: #111;
 }
 </style>
