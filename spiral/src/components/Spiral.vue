@@ -1,6 +1,7 @@
 <template>
   <div class="spiral">
-    <h1>Count: {{ count }}</h1>
+    <h1 v-if="count > 0 && count % 1 === 0">Count: {{ count }}</h1>
+    <h1 v-else>Please insert a whole number greater than 0</h1>
     <div id="matrix">
       <div class="row" v-for="row in numbers" :key="row.index">
         <div
@@ -113,6 +114,7 @@ export default {
       );
     },
     getMatrix() {
+      if (isNaN(this.count) || this.count % 1 != 0 || this.count < 1) return;
       let matrix = new Array();
 
       for (let j = 0; j < this.count; ++j) {
